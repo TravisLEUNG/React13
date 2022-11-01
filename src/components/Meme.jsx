@@ -9,10 +9,18 @@ export default function Meme() {
   const [allMemeImages, setAllMemeImages] = React.useState([]);
 
   React.useEffect(() => {
-    fetch("https://api.imgflip.com/get_memes")
-      .then(res => res.json())
-      .then(data => setAllMemeImages(data.data.memes))
-  }, [])
+    async function getMemes() { // Only way to use async function in Use Effect
+        const res = await fetch("https://api.imgflip.com/get_memes")
+        const data = await res.json()
+        setAllMemes(data.data.memes)
+        
+    }
+    getMemes()
+    
+    return () => {
+        // For Use Effect to run when unmounting the component!!!
+    }
+}, [])
 
   function handleTextChange(event) {
     const { name, value } = event.target;
